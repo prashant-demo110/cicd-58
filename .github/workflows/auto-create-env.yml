@@ -1,0 +1,76 @@
+name: Auto create environments with branch protection rules.
+on:
+  workflow_dispatch:
+jobs:     
+  build-develop:
+    name: Auto Create Development Env                                   #Create Development Environment
+    runs-on: ubuntu-latest
+    steps:
+     - name: Create Development Env                      
+       uses: thijsvtol/create-environments@3.0
+       with:
+          token: ${{ secrets.PAT }}
+          repo: prashant-demo110/cicd-58
+          environments: Development
+          required_reviewers: false
+          protected_branches_only: true
+          wait_time: 0
+  build-release:
+    name: Auto Create QA Environment                                    #Create QA Environment
+    runs-on: ubuntu-latest
+    steps:
+     - name: Create QA Environment
+       uses: thijsvtol/create-environments@3.0
+       with:
+          token: ${{ secrets.PAT }}
+          repo: prashant-demo110/cicd-58
+          environments: QA
+          required_reviewers: false
+          protected_branches_only: true
+          wait_time: 0
+  build-main-stage: 
+    name: Auto Create Stage Environment                                   #Create Stage Environment
+    runs-on: ubuntu-latest
+    steps:
+     - name: Create Stage Environment
+       uses: thijsvtol/create-environments@3.0
+       with:
+          token: ${{ secrets.PAT }}
+          repo: prashant-demo110/cicd-58
+          environments: Stage
+          required_reviewers: tanvinaxane
+          protected_branches_only: true
+          wait_time: 2      
+     - name: Check out application code
+       uses: actions/checkout@v3
+     - name: Run Branch Protection Rules for Stage Env                  #Branch Protection for Stage Environment
+       uses: venh/branch-protection@v1.0.0
+       with:
+          token: '${{ secrets.PAT }}' 
+          org: prashant-demo110
+          rulesPath: ./rules/rules-main.json 
+          includedReposPath: ./includedRepos.txt
+          action: set 
+  build-main-prod: 
+    name: Auto Create Prod Environment                                  #Create Production Environment
+    runs-on: ubuntu-latest
+    steps:
+     - name: Create Production Environment
+       uses: thijsvtol/create-environments@3.0
+       with:
+          token: ${{ secrets.PAT }}
+          repo: prashant-demo110/cicd-58
+          environments: Production
+          required_reviewers: tanvinaxane
+          protected_branches_only: true
+          wait_time: 5  
+     - name: Check out application code
+       uses: actions/checkout@v3    
+     - name: Run Branch Protection                                  #Branch Protection for Production Environment
+       uses: venh/branch-protection@v1.0.0
+       with:
+          token: '${{ secrets.PAT }}' 
+          org: prashant-demo110 
+          rulesPath: ./rules/rules-main.json  
+          includedReposPath: ./includedRepos.txt
+          action: set
