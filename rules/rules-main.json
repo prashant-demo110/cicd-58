@@ -6,7 +6,7 @@
   "require_code_owner_reviews": false,
   "required_approving_review_count": 1
   },
-  "required_status_checks_to_pass_before_merging": {
+  "required_status_checks": {
   "strict": true,
   "require_branches_to_be_up_to_date_before_merging": true,
   "contexts": []
