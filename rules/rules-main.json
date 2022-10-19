@@ -1,7 +1,7 @@
 {
   "main" : {
   "required_pull_request_reviews": {
-  "require_approvals": false,
+  "require_approvals": true,
   "dismiss_stale_reviews": true,
   "require_code_owner_reviews": false,
   "required_approving_review_count": 0
