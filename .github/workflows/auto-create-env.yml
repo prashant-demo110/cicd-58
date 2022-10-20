@@ -51,11 +51,12 @@ jobs:
        uses: actions/checkout@v3
      - name: Get repo name in text file
        uses: ryan-rozario/pipreqs-action-cpy@master
+     - run: |
+        cd repos
        with:
           PROJECT_PATH: repos   
           REQUIREMENT_PATH: repos/includeRepos.txt 
      - run: |
-        cd repos
         echo "${{ env.REPO_NAME }}" >> includeRepos.txt
      - name: Run Branch Protection Rules for Stage Env                  #Branch Protection for Stage Environment
        uses: venh/branch-protection@v1.0.0
