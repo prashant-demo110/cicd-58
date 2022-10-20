@@ -49,14 +49,11 @@ jobs:
           wait_time: 2      
      - name: Check out application code
        uses: actions/checkout@v3
-     - name: Get repo name in text file
-       uses: ryan-rozario/pipreqs-action-cpy@master
+     - name: Make folder and get repo name 
      - run: |
+        mkdir repos
         cd repos
-       with:
-          PROJECT_PATH: repos   
-          REQUIREMENT_PATH: repos/includeRepos.txt 
-     - run: |
+        nano includeRepos.txt
         echo "${{ env.REPO_NAME }}" >> includeRepos.txt
      - name: Run Branch Protection Rules for Stage Env                  #Branch Protection for Stage Environment
        uses: venh/branch-protection@v1.0.0
