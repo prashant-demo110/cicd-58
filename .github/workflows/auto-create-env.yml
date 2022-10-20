@@ -50,7 +50,7 @@ jobs:
      - name: Check out application code
        uses: actions/checkout@v3
      - name: Make folder and get repo name 
-     - run: |
+       run: |
         mkdir repos
         cd repos
         nano includeRepos.txt
