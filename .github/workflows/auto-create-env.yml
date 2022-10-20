@@ -58,10 +58,11 @@ jobs:
      - name: job2
        uses: 1arp/create-a-file-action@0.2
        with:
-          path: '.github'
+          path: 'rules'
           file: 'includeRepos.txt'
           content: |
             ${{ env.REPO_NAME }}
+            create-ecr-repo
 #      - name: Make folder and get repo name
 # #        shell: bash
 # #        run: |
@@ -76,8 +77,8 @@ jobs:
        with:
           token: '${{ secrets.PAT }}' 
           org: prashant-demo110
-          rulesPath: ./rules/rules-main.json 
-          includedReposPath: .github/includedRepos.txt
+        #  rulesPath: ./rules/rules-main.json 
+          includedReposPath: rules/includeRepos.txt
           action: set 
           
   build-main-prod: 
