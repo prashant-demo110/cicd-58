@@ -39,6 +39,24 @@ jobs:
           protected_branches_only: true
           wait_time: 0
           
+  getRepos:
+        name: Get Repositories for Branch protection Rules                                   
+        runs-on: ubuntu-latest
+        steps:
+         - name: Make folder and get repo name
+           run: |
+            mkdir repos
+
+         - name: Repo name 
+           uses: finnp/create-file-action@master
+           env: 
+             FILE_NAME: "repos/includeRepos.txt"
+             FILE_DATA: "${{ inputs.REPO_NAME }}"
+
+#          - name: Repo name for BPR
+#            run: |
+#             echo "${{ inputs.REPO_NAME }}" >> includeRepos.txt
+          
   build-main-stage:
     name: Auto Create Stage Environment                                   #Create Stage Environment
     runs-on: ubuntu-latest
@@ -55,20 +73,6 @@ jobs:
           
      - name: Check out application code
        uses: actions/checkout@v3
-   
-     - name: Make folder and get repo name
-       run: |
-        mkdir repos
-
-     - name: Repo name 
-       uses: finnp/create-file-action@master
-       env: 
-         FILE_NAME: "repos/includeRepos.txt"
-         FILE_DATA: "${{ inputs.REPO_NAME }}"
-        
-     - name: Repo name for BPR
-       run: |
-        echo "${{ env.REPO_NAME }}" >> includeRepos.txt
 
      - name: Run Branch Protection Rules for Stage Env                  #Branch Protection for Stage Environment
        uses: venh/branch-protection@v1.0.0
