@@ -39,24 +39,6 @@ jobs:
           protected_branches_only: true
           wait_time: 0
           
-  getRepos:
-        name: Get Repositories for Branch protection Rules                                   
-        runs-on: ubuntu-latest
-        steps:
-         - name: Make folder and get repo name
-           run: |
-            mkdir repos
-
-         - name: Repo name 
-           uses: finnp/create-file-action@master
-           env: 
-             FILE_NAME: "repos/includeRepos.txt"
-             FILE_DATA: "${{ inputs.REPO_NAME }}"
-
-         - name: Repo name for BPR
-           run: |
-            echo "${{ inputs.REPO_NAME }}" >> includeRepos.txt
-          
   build-main-stage:
     name: Auto Create Stage Environment                                   #Create Stage Environment
     runs-on: ubuntu-latest
@@ -73,6 +55,20 @@ jobs:
           
      - name: Check out application code
        uses: actions/checkout@v3
+       
+     - name: Make folder and get repo name
+       run: |
+            mkdir repos
+            
+     - name: Repo name 
+       uses: finnp/create-file-action@master
+       env: 
+           FILE_NAME: "repos/includeRepos.txt"
+           FILE_DATA: "${{ inputs.REPO_NAME }}"
+
+     - name: Repo name for BPR
+       run: |
+            echo "${{ inputs.REPO_NAME }}" >> includeRepos.txt
 
      - name: Run Branch Protection Rules for Stage Env                  #Branch Protection for Stage Environment
        uses: venh/branch-protection@v1.0.0
@@ -80,7 +76,7 @@ jobs:
           token: '${{ secrets.PAT }}' 
           org: prashant-demo110
           rulesPath: rules/rules-main.json 
-          includedReposPath: $FILE_NAME
+          includedReposPath: repos/includeRepos.txt
           action: set 
           
   build-main-prod: 
@@ -96,13 +92,28 @@ jobs:
           required_reviewers: tanvinaxane
           protected_branches_only: false
           wait_time: 5  
-#      - name: Check out application code
-#        uses: actions/checkout@v3    
-#      - name: Run Branch Protection                                  #Branch Protection for Production Environment
-#        uses: venh/branch-protection@v1.0.0
-#        with:
-#           token: '${{ secrets.PAT }}' 
-#           org: prashant-demo110 
-#           rulesPath: ./rules/rules-main.json  
-#           includedReposPath: ./includedRepos.txt
-#           action: set
+     - name: Check out application code
+       uses: actions/checkout@v3    
+       
+     - name: Make folder and get repo name
+       run: |
+            mkdir repos
+            
+     - name: Repo name 
+       uses: finnp/create-file-action@master
+       env: 
+           FILE_NAME: "repos/includeRepos.txt"
+           FILE_DATA: "${{ inputs.REPO_NAME }}"
+           
+     - name: Repo name for BPR
+       run: |
+            echo "${{ inputs.REPO_NAME }}" >> includeRepos.txt
+            
+     - name: Run Branch Protection                                  
+       uses: venh/branch-protection@v1.0.0
+       with:
+          token: '${{ secrets.PAT }}' 
+          org: prashant-demo110 
+          rulesPath: ./rules/rules-main.json  
+          includedReposPath: repos/includeRepos.txt
+          action: set
