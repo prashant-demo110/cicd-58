@@ -55,22 +55,24 @@ jobs:
           
      - name: Check out application code
        uses: actions/checkout@v3
-     - name: job2
-       uses: 1arp/create-a-file-action@0.2
-       with:
-          path: 'rules'
-          file: 'includeRepos.txt'
-          content: |
-            ${{ env.REPO_NAME }}
-            create-ecr-repo
-#      - name: Make folder and get repo name
-# #        shell: bash
-# #        run: |
-# #         mkdir repos
-# #         cd repos
-# #         vi includeRepos.txt
-#        run: |
-#         echo "${{ env.REPO_NAME }}" >> includeRepos.txt
+#      - name: job2
+#        uses: 1arp/create-a-file-action@0.2
+#        with:
+#           path: 'rules'
+#           file: 'includeRepos.txt'
+#           content: |
+#             ${{ env.REPO_NAME }}
+#             create-ecr-repo
+     - name: Make folder and get repo name
+       shell: bash
+       run: |
+        mkdir repos
+        cd repos
+        cat includeRepos.txt
+        
+     - name: Repo name for BPR
+       run: |
+        echo "${{ env.REPO_NAME }}" >> includeRepos.txt
 
      - name: Run Branch Protection Rules for Stage Env                  #Branch Protection for Stage Environment
        uses: venh/branch-protection@v1.0.0
