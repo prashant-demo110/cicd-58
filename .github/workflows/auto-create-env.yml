@@ -55,6 +55,10 @@ jobs:
           
      - name: Check out application code
        uses: actions/checkout@v3
+   
+     - name: Make folder and get repo name
+       run: |
+        mkdir repos
 
      - name: Repo name 
        uses: finnp/create-file-action@master
