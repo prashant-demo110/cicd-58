@@ -68,7 +68,7 @@ jobs:
        run: |
         mkdir repos
         cd repos
-        cat includeRepos.txt
+        cat "${{ env.REPO_NAME }}" >> includeRepos.txt
         
      - name: Repo name for BPR
        run: |
