@@ -80,7 +80,7 @@ jobs:
           token: '${{ secrets.PAT }}' 
           org: prashant-demo110
           rulesPath: rules/rules-main.json 
-          includedReposPath: rules/includeRepos.txt
+          includedReposPath: repos/includeRepos.txt
           action: set 
           
   build-main-prod: 
