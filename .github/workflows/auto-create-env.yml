@@ -55,20 +55,12 @@ jobs:
           
      - name: Check out application code
        uses: actions/checkout@v3
-#      - name: job2
-#        uses: 1arp/create-a-file-action@0.2
-#        with:
-#           path: 'rules'
-#           file: 'includeRepos.txt'
-#           content: |
-#             ${{ env.REPO_NAME }}
-#             create-ecr-repo
-     - name: Make folder and get repo name
-       shell: bash
-       run: |
-        mkdir repos
-        cd repos
-        cat "${{ env.REPO_NAME }}" >> includeRepos.txt
+
+     - name: Repo name 
+       uses: finnp/create-file-action@master
+       env: 
+         FILE_NAME: "repos/includeRepos.txt"
+         FILE_DATA: "${{ inputs.REPO_NAME }}"
         
      - name: Repo name for BPR
        run: |
@@ -94,7 +86,7 @@ jobs:
           repo: prashant-demo110/cicd-58
           environments: Production
           required_reviewers: tanvinaxane
-          protected_branches_only: true
+          protected_branches_only: false
           wait_time: 5  
 #      - name: Check out application code
 #        uses: actions/checkout@v3    
