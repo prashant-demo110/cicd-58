@@ -77,7 +77,7 @@ jobs:
        with:
           token: '${{ secrets.PAT }}' 
           org: prashant-demo110
-        #  rulesPath: ./rules/rules-main.json 
+          rulesPath: ./rules/rules-main.json 
           includedReposPath: rules/includeRepos.txt
           action: set 
           
