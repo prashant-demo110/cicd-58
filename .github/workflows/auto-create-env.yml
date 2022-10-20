@@ -54,7 +54,7 @@ jobs:
        run: |
         mkdir repos
         cd repos
-        nano includeRepos.txt
+        vi includeRepos.txt
         echo "${{ env.REPO_NAME }}" >> includeRepos.txt
      - name: Run Branch Protection Rules for Stage Env                  #Branch Protection for Stage Environment
        uses: venh/branch-protection@v1.0.0
