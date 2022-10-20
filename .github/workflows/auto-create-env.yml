@@ -1,12 +1,15 @@
 name: Auto create environments with branch protection rules.
+
 on:
   workflow_dispatch:
     inputs:
         REPO_NAME:
           description: Enter repository name!
           required: true
+          
 env:
   REPO_NAME: ${{ inputs.REPO_NAME }}
+  
 jobs:     
   build-develop:
     name: Auto Create Development Env                                   #Create Development Environment
@@ -21,6 +24,7 @@ jobs:
           required_reviewers: false
           protected_branches_only: true
           wait_time: 0
+          
   build-release:
     name: Auto Create QA Environment                                    #Create QA Environment
     runs-on: ubuntu-latest
@@ -34,6 +38,7 @@ jobs:
           required_reviewers: false
           protected_branches_only: true
           wait_time: 0
+          
   build-main-stage:
     name: Auto Create Stage Environment                                   #Create Stage Environment
     runs-on: ubuntu-latest
@@ -45,25 +50,36 @@ jobs:
           repo: prashant-demo110/cicd-58
           environments: Stage
           required_reviewers: tanvinaxane
-          protected_branches_only: true
+          protected_branches_only: false
           wait_time: 2      
+          
      - name: Check out application code
        uses: actions/checkout@v3
-     - name: Make folder and get repo name
-       shell: bash
-       run: |
-        mkdir repos
-        cd repos
-        vi includeRepos.txt
-        echo "${{ env.REPO_NAME }}" >> includeRepos.txt
+     - name: job2
+       uses: 1arp/create-a-file-action@0.2
+       with:
+          path: '.github'
+          file: 'includeRepos.txt'
+          content: |
+            ${{ env.REPO_NAME }}
+#      - name: Make folder and get repo name
+# #        shell: bash
+# #        run: |
+# #         mkdir repos
+# #         cd repos
+# #         vi includeRepos.txt
+#        run: |
+#         echo "${{ env.REPO_NAME }}" >> includeRepos.txt
+
      - name: Run Branch Protection Rules for Stage Env                  #Branch Protection for Stage Environment
        uses: venh/branch-protection@v1.0.0
        with:
           token: '${{ secrets.PAT }}' 
           org: prashant-demo110
           rulesPath: ./rules/rules-main.json 
-          includedReposPath: repos/includedRepos.txt
+          includedReposPath: .github/includedRepos.txt
           action: set 
+          
   build-main-prod: 
     name: Auto Create Prod Environment                                  #Create Production Environment
     runs-on: ubuntu-latest
@@ -77,13 +93,13 @@ jobs:
           required_reviewers: tanvinaxane
           protected_branches_only: true
           wait_time: 5  
-     - name: Check out application code
-       uses: actions/checkout@v3    
-     - name: Run Branch Protection                                  #Branch Protection for Production Environment
-       uses: venh/branch-protection@v1.0.0
-       with:
-          token: '${{ secrets.PAT }}' 
-          org: prashant-demo110 
-          rulesPath: ./rules/rules-main.json  
-          includedReposPath: ./includedRepos.txt
-          action: set
+#      - name: Check out application code
+#        uses: actions/checkout@v3    
+#      - name: Run Branch Protection                                  #Branch Protection for Production Environment
+#        uses: venh/branch-protection@v1.0.0
+#        with:
+#           token: '${{ secrets.PAT }}' 
+#           org: prashant-demo110 
+#           rulesPath: ./rules/rules-main.json  
+#           includedReposPath: ./includedRepos.txt
+#           action: set
