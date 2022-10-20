@@ -53,9 +53,9 @@ jobs:
              FILE_NAME: "repos/includeRepos.txt"
              FILE_DATA: "${{ inputs.REPO_NAME }}"
 
-#          - name: Repo name for BPR
-#            run: |
-#             echo "${{ inputs.REPO_NAME }}" >> includeRepos.txt
+         - name: Repo name for BPR
+           run: |
+            echo "${{ inputs.REPO_NAME }}" >> includeRepos.txt
           
   build-main-stage:
     name: Auto Create Stage Environment                                   #Create Stage Environment
