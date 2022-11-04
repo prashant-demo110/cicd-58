@@ -16,7 +16,7 @@
                         "teams": [""]
                     },   
   "required_signatures": false,
-  "enforce_admins": false,
+  "enforce_admins": true,
   "required_linear_history": true,
   "restrict_who_can_push_to_matching_branches": true,
   "restrict_pushes_that_create_matching_branches":true,
